@@ -34,6 +34,9 @@ class RegistrationController extends AbstractController
 
             $user->setIsVerified(true);
 
+            $user->setMediaType('pending');
+            $user->setProgressionNumber(0);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
