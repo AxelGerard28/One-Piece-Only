@@ -34,7 +34,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getOneOrNullResult();
 
         if ($user) {
-            $user->setLoginIdentifier($identifier);
+            $user->getUserIdentifier($identifier);
         }
 
         return $user;

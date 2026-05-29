@@ -7,24 +7,69 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
     <div class="acc-button">
-        Go <a href="{{ path('app_home') }}">home</a>.
+        <a href="{{ path('app_home') }}">Accueil</a>
     </div>
     <div class="acc-button">
-        You have an account ? <a href="{{ path('app_login') }}">Login</a>.
+        Tu as deja un compte ?<a href="{{ path('app_login') }}">Connexion</a>
     </div>
 
 
     <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
-
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_row(registrationForm.username) }}
+    {{ form_row(registrationForm.email) }}
+    {{ form_row(registrationForm.plainPassword) }}
+    <div class="media_type">
+        {{ form_row(registrationForm['media_type']) }}
 
-        <button type="submit" class="btn">Register</button>
+        <div id="wrapper-anime" class="progression_choice" style="display: none;">
+            {{ form_row(registrationForm.progressionAnime) }}
+        </div>
+
+        <div id="wrapper-manga" class="progression_choice" style="display: none;">
+            {{ form_row(registrationForm.progressionManga) }}
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 mt-4">S'inscrire</button>
     {{ form_end(registrationForm) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            /** @var {HTMLInputElement} checkManga */
+            const checkManga = document.getElementById('registration_form_media_type_1');
+            /** @var {HTMLInputElement} checkAnime */
+            const checkAnime = document.getElementById('registration_form_media_type_0');
+
+            /** @var {HTMLElement} divManga */
+            const divManga = document.getElementById('wrapper-manga');
+            /** @var {HTMLElement} divAnime */
+            const divAnime = document.getElementById('wrapper-anime');
+
+            function updateVisibility() {
+                if (checkManga && checkManga.checked && divManga) {
+                    divManga.style.display = 'block';
+                    divManga.querySelector('input')?.setAttribute('required', 'required');
+                } else if (divManga) {
+                    divManga.style.display = 'none';
+                    divManga.querySelector('input')?.removeAttribute('required');
+                }
+
+                if (checkAnime && checkAnime.checked && divAnime) {
+                    divAnime.style.display = 'block';
+                    divAnime.querySelector('input')?.setAttribute('required', 'required');
+                } else if (divAnime) {
+                    divAnime.style.display = 'none';
+                    divAnime.querySelector('input')?.removeAttribute('required');
+                }
+            }
+
+            if (checkManga) checkManga.addEventListener('change', updateVisibility);
+            if (checkAnime) checkAnime.addEventListener('change', updateVisibility);
+
+            updateVisibility();
+        });
+    </script>
 {% endblock %}

@@ -34,8 +34,18 @@ class RegistrationController extends AbstractController
 
             $user->setIsVerified(true);
 
-            $user->setMediaType('pending');
-            $user->setProgressionNumber(0);
+            $progressions = [];
+            $selectedMedias = $user->getMediaType();
+
+            if (in_array('Manga', $selectedMedias)) {
+                $progressions['Manga'] = (int) $form->get('progressionManga')->getData();
+            }
+
+            if (in_array('Anime', $selectedMedias)) {
+                $progressions['Anime'] = (int) $form->get('progressionAnime')->getData();
+            }
+
+            $user->setProgressionNumber($progressions);
 
             $entityManager->persist($user);
             $entityManager->flush();

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use AllowDynamicProperties;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +10,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[AllowDynamicProperties]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
@@ -27,7 +25,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
@@ -53,23 +50,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Message>
      */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'user_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'sender', orphanRemoval: true)]
     private Collection $messages;
 
-    #[ORM\Column(length: 15)]
-    private ?string $media_type = null;
+    #[ORM\Column]
+    private array $mediaType = [];
 
     #[ORM\Column]
-    private ?int $progression_number = null;
+    private array $progressionNumber = [];
 
     public function __construct()
     {
         $this->createdChannels = new ArrayCollection();
         $this->joinedChannels = new ArrayCollection();
         $this->messages = new ArrayCollection();
-
-        $this->mediaType = 'pending';
-        $this->progressionNumber = 0;
     }
 
     public function getId(): ?int
@@ -85,7 +79,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -97,33 +90,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
     public function getUserIdentifier(): string
     {
-        return $this->loginIdentifier ?? (string)$this->username;
-    }
-
-    public function setLoginIdentifier(string $identifier): self
-    {
-        $this->loginIdentifier = $identifier;
-        return $this;
+        return (string) $this->username;
     }
 
     public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -135,7 +119,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -151,7 +134,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
         return $this;
     }
 
@@ -169,19 +151,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->createdChannels->add($createdChannel);
             $createdChannel->setCreator($this);
         }
-
         return $this;
     }
 
     public function removeCreatedChannel(Channel $createdChannel): static
     {
         if ($this->createdChannels->removeElement($createdChannel)) {
-            // set the owning side to null (unless already changed)
             if ($createdChannel->getCreator() === $this) {
                 $createdChannel->setCreator(null);
             }
         }
-
         return $this;
     }
 
@@ -199,19 +178,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->joinedChannels->add($joinedChannel);
             $joinedChannel->setMember($this);
         }
-
         return $this;
     }
 
     public function removeJoinedChannel(ChannelUser $joinedChannel): static
     {
         if ($this->joinedChannels->removeElement($joinedChannel)) {
-            // set the owning side to null (unless already changed)
             if ($joinedChannel->getMember() === $this) {
                 $joinedChannel->setMember(null);
             }
         }
-
         return $this;
     }
 
@@ -227,45 +203,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->messages->contains($message)) {
             $this->messages->add($message);
-            $message->setUserId($this);
+            $message->setSender($this);
         }
-
         return $this;
     }
 
     public function removeMessage(Message $message): static
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getUserId() === $this) {
-                $message->setUserId(null);
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
             }
         }
-
         return $this;
     }
 
-    public function getMediaType(): ?string
+    public function getMediaType(): array
     {
-        return $this->media_type;
+        return $this->mediaType;
     }
 
-    public function setMediaType(string $media_type): static
+    public function setMediaType(array $mediaType): static
     {
-        $this->media_type = $media_type;
-
+        $this->mediaType = $mediaType;
         return $this;
     }
 
-    public function getProgressionNumber(): ?int
+    public function getProgressionNumber(): array
     {
-        return $this->progression_number;
+        return $this->progressionNumber;
     }
 
-    public function setProgressionNumber(int $progression_number): static
+    public function setProgressionNumber(array $progressionNumber): static
     {
-        $this->progression_number = $progression_number;
-
+        $this->progressionNumber = $progressionNumber;
         return $this;
     }
 }
