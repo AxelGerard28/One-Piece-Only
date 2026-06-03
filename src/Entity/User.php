@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(name: '`users`')]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -53,11 +53,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'sender', orphanRemoval: true)]
     private Collection $messages;
 
-    #[ORM\Column]
-    private array $mediaType = [];
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $mediaType = null;
 
-    #[ORM\Column]
-    private array $progressionNumber = [];
+    #[ORM\Column(nullable: true)]
+    private ?int $progressionAnime = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $progressionManga = null;
 
     public function __construct()
     {
@@ -218,25 +221,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMediaType(): array
+    public function getMediaType(): ?string
     {
         return $this->mediaType;
     }
 
-    public function setMediaType(array $mediaType): static
+    public function setMediaType(?string $mediaType): static
     {
         $this->mediaType = $mediaType;
         return $this;
     }
 
-    public function getProgressionNumber(): array
+    public function getProgressionAnime(): ?int
     {
-        return $this->progressionNumber;
+        return $this->progressionAnime;
     }
 
-    public function setProgressionNumber(array $progressionNumber): static
+    public function setProgressionAnime(?int $progressionAnime): static
     {
-        $this->progressionNumber = $progressionNumber;
+        $this->progressionAnime = $progressionAnime;
+        return $this;
+    }
+
+    public function getProgressionManga(): ?int
+    {
+        return $this->progressionManga;
+    }
+
+    public function setProgressionManga(?int $progressionManga): static
+    {
+        $this->progressionManga = $progressionManga;
         return $this;
     }
 }

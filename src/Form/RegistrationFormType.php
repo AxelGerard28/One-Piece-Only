@@ -48,22 +48,21 @@ class RegistrationFormType extends AbstractType
                 'choices' => [
                     'L\'anime' => "Anime",
                     'Le manga' => "Manga",
+                    'Les deux' => "Both",
                 ],
                 'expanded' => true,
-                'multiple' => true,
+                'multiple' => false,
                 'label' => 'Es tu plus manga, anime ou les deux ?'
-            ])
-            ->add('progressionManga', IntegerType::class, [
-                'required' => false,
-                'mapped' => false,
-                'label' => 'Ton dernier Chapitre lu :',
-                'attr' => ['min' => 1, 'max' => 1184, 'placeholder' => 'Ex: 1184']
             ])
             ->add('progressionAnime', IntegerType::class, [
                 'required' => false,
-                'mapped' => false,
-                'label' => 'Ton dernier Épisode vu :',
-                'attr' => ['min' => 1, 'placeholder' => 'Ex: 1130']
+                'label' => 'Votre avancement dans l\'Anime (Numéro d\'épisode)',
+                'attr' => ['min' => 0, 'placeholder' => 'Ex: 1100']
+            ])
+            ->add('progressionManga', IntegerType::class, [
+                'required' => false,
+                'label' => 'Votre avancement dans le Manga (Numéro de chapitre)',
+                'attr' => ['min' => 0, 'placeholder' => 'Ex: 1184']
             ])
         ;
     }

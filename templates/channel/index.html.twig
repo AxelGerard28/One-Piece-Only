@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div style="display: flex; font-family: sans-serif;">
+
+        <div style="width: 200px; border-right: 1px solid #ccc; padding-right: 15px;">
+            <h3>Canaux</h3>
+            <ul style="list-style: none; padding: 0;">
+                {% for ch in channels %}
+                    <li style="margin-bottom: 10px;">
+                        <a href="{{ path('app_channel_room', {'id': ch.id}) }}" style="text-decoration: none; color: black;">
+                            {% if currentChannel.id == ch.id %}
+                                <strong> --> # {{ ch.name }}</strong>
+                            {% else %}
+                                # {{ ch.name }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <a href="{{ path('app_home') }}">Retour à l'accueil</a>
+        </div>
+
+        <div style="flex: 1; padding-left: 20px;">
+            <h2># {{ currentChannel.name }}</h2>
+            <p><i>{{ currentChannel.description }}</i></p>
+
+            <div id="discussion-box" style="height: 350px; overflow-y: scroll; border: 1px solid black; padding: 10px; margin-bottom: 15px;">
+                {% for msg in currentChannel.messages %}
+                    <div class="messages">
+                        <strong>{{ msg.userId.username }}</strong>
+                        <small>({{ msg.createdAt|date('H:i') }})</small>
+                        <p style="white-space: pre-wrap; word-break: break-word; margin-top: 5px; margin-bottom: 5px;">{{ msg.content }}</p>
+                    </div>
+                    <hr style="border: 0; border-top: 1px dashed #eee;">
+                {% endfor %}
+            </div>
+
+            <form id="chat-form">
+                <input type="text" id="chat-input" placeholder="Écrire dans #{{ currentChannel.name }}..." autocomplete="off" required style="width: 70%; padding: 8px;">
+                <button type="submit" style="padding: 8px 15px;">Envoyer</button>
+            </form>
+            <a href="{{ path('app_channel_new') }}" style="display: block; text-align: center; margin-top: 15px; padding: 10px; background-color: #007bff; color: white; text-decoration: none; font-weight: bold; border-radius: 4px;">
+                + Créer un canal
+            </a>
+        </div>
+
+
+
+    </div>
+
+    <script>
+        (function() {
+            const currentChannelId = "{{ currentChannel.id }}";
+            const topicUrl = "https://onepiece-only.local/channels/" + currentChannelId;
+            const hubUrl = new URL('{{ mercure_hub_url|default("http://localhost:3000/.well-known/mercure") }}');
+            hubUrl.searchParams.append('topic', topicUrl);
+
+            if (window.currentEventSource) {
+                window.currentEventSource.close();
+            }
+
+            window.currentEventSource = new EventSource(hubUrl);
+
+            window.currentEventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                const htmlMessage = `
+                <div>
+                    <strong>${data.username}</strong>
+                    <small>(${data.createdAt})</small>
+                    <p>${data.content}</p>
+                </div>
+                <hr style="border: 0; border-top: 1px dashed #eee;">
+            `;
+                const box = document.getElementById('discussion-box');
+                if (box) {
+                    box.insertAdjacentHTML('beforeend', htmlMessage);
+                    box.scrollTop = box.scrollHeight;
+                }
+            };
+
+            const chatForm = document.getElementById('chat-form');
+            if (chatForm) {
+                chatForm.onsubmit = function(e) {
+                    e.preventDefault();
+                    const input = document.getElementById('chat-input');
+                    const text = input.value.trim();
+                    if (text === '') return;
+
+                    fetch(`/api/channels/${currentChannelId}/send`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ content: text })
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                input.value = '';
+                            }
+                        });
+                };
+            }
+        })();
+    </script>
+
+{% endblock %}

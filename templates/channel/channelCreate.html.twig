@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        {# BARRE LATÉRALE #}
+        <div>
+            <h3>Canaux</h3>
+            <ul>
+                {% for ch in channels %}
+                    <li>
+                        <a href="{{ path('app_channel_room', {'id': ch.id}) }}">
+                            # {{ ch.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <a href="{{ path('app_home') }}">Retour à l'accueil</a>
+        </div>
+
+        <hr>
+
+        {# ESPACE CRÉATION #}
+        <div>
+            <h2>Créer un nouveau canal de discussion ️</h2>
+
+            {% for message in app.flashes('error') %}
+                <p><strong>{{ message }}</strong></p>
+            {% endfor %}
+
+            <form action="{{ path('app_channel_create_submit') }}" method="POST">
+
+                <div>
+                    <label for="name">Nom du canal :</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div>
+                    <label for="description">Description / Règles :</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+
+                <div>
+                    <label for="allowed_media_type">Média autorisé :</label>
+                    <select id="allowed_media_type" name="allowed_media_type">
+                        <option value="both">Tout le monde (Pas de restriction)</option>
+                        <option value="manga">Réservé au Manga (Scans)</option>
+                        <option value="anime">Réservé à l'Anime</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="max_progression_allowed">Épisode / Chapitre minimum :</label>
+                    <input type="number" id="max_progression_allowed" name="max_progression_allowed" value="0" min="0">
+                </div>
+
+                <div>
+                    <button type="submit">Lancer le canal</button>
+                    <a href="{{ path('app_home') }}">Annuler</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -29,29 +29,19 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
-
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
             $user->setIsVerified(true);
 
-            $progressions = [];
-            $selectedMedias = $user->getMediaType();
+            $mediaType = $form->get('media_type')->getData();
+            $user->setMediaType($mediaType);
 
-            if (in_array('Manga', $selectedMedias)) {
-                $progressions['Manga'] = (int) $form->get('progressionManga')->getData();
-            }
-
-            if (in_array('Anime', $selectedMedias)) {
-                $progressions['Anime'] = (int) $form->get('progressionAnime')->getData();
-            }
-
-            $user->setProgressionNumber($progressions);
+            $user->setProgressionAnime((int) $form->get('progressionAnime')->getData());
+            $user->setProgressionManga((int) $form->get('progressionManga')->getData());
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Inscription réussie ! Bienvenue dans l\'équipage.');
-
+            $this->addFlash('success', 'Inscription réussie ! Bienvenue dans l\'équipage 🏴‍☠️');
             return $security->login($user, AppCustomAuthenticator::class, 'main');
         }
 

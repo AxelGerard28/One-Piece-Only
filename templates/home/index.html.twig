@@ -1,37 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-    <div class="navigation-bar">
-        {% if app.user %}
-            <span class="user-welcome">
-            <strong>{{ app.user.username }}</strong>
+    <h1>Bienvenue sur One Piece Only !</h1>
+    <p>Sélectionne un canal de discussion pour commencer à échanger (sans spoil) :</p>
 
-            {% set progressions = app.user.progressionNumber %}
-                {% set medias = app.user.mediaType %}
-                {% if progressions is not empty %}
-                    (
-                    {%- if 'Manga' in medias and progressions.Manga is defined -%}
-                        Chapitre {{ progressions.Manga }}
-                    {%- endif -%}
-
-                    {%- if 'Manga' in medias and 'Anime' in medias -%}
-                        &nbsp;/&nbsp;
-                    {%- endif -%}
-
-                    {%- if 'Anime' in medias and progressions.Anime is defined -%}
-                        Episode {{ progressions.Anime }}
-                    {%- endif -%})
-                {% endif %}
-        </span>
-
-            <a href="{{ path('app_logout') }}" class="btn-logout">Logout</a>
-
+    <ul>
+        {% for ch in channels %}
+            <li style="margin-bottom: 15px;">
+                <a href="{{ path('app_channel_room', {'id': ch.id}) }}" style="font-size: 18px; font-weight: bold;">
+                    # {{ ch.name }}
+                </a>
+                <br>
+                <small>{{ ch.description }}</small>
+            </li>
         {% else %}
-            <a href="{{ path('app_login') }}" class="btn-login">Login</a>
-            <a href="{{ path('app_register') }}" class="btn-register">Register</a>
-        {% endif %}
-    </div>
-
+            <li>Aucun canal disponible pour le moment.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

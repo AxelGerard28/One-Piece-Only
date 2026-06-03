@@ -38,36 +38,47 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            /** @var {HTMLInputElement} checkManga */
-            const checkManga = document.getElementById('registration_form_media_type_1');
-            /** @var {HTMLInputElement} checkAnime */
-            const checkAnime = document.getElementById('registration_form_media_type_0');
+            const checkAnime = document.getElementById('registration_form_media_type_0'); // anime
+            const checkManga = document.getElementById('registration_form_media_type_1'); // manga
+            const checkBoth = document.getElementById('registration_form_media_type_2');  // both
 
-            /** @var {HTMLElement} divManga */
-            const divManga = document.getElementById('wrapper-manga');
-            /** @var {HTMLElement} divAnime */
             const divAnime = document.getElementById('wrapper-anime');
+            const divManga = document.getElementById('wrapper-manga');
 
             function updateVisibility() {
-                if (checkManga && checkManga.checked && divManga) {
-                    divManga.style.display = 'block';
-                    divManga.querySelector('input')?.setAttribute('required', 'required');
-                } else if (divManga) {
-                    divManga.style.display = 'none';
-                    divManga.querySelector('input')?.removeAttribute('required');
+
+                const showAnime = (checkAnime && checkAnime.checked) || (checkBoth && checkBoth.checked);
+                const showManga = (checkManga && checkManga.checked) || (checkBoth && checkBoth.checked);
+
+
+                if (divAnime) {
+                    const inputAnime = divAnime.querySelector('input');
+                    if (showAnime) {
+                        divAnime.style.display = 'block';
+                        inputAnime?.setAttribute('required', 'required');
+                    } else {
+                        divAnime.style.display = 'none';
+                        inputAnime?.removeAttribute('required');
+                        if (inputAnime) inputAnime.value = '0';
+                    }
                 }
 
-                if (checkAnime && checkAnime.checked && divAnime) {
-                    divAnime.style.display = 'block';
-                    divAnime.querySelector('input')?.setAttribute('required', 'required');
-                } else if (divAnime) {
-                    divAnime.style.display = 'none';
-                    divAnime.querySelector('input')?.removeAttribute('required');
+                if (divManga) {
+                    const inputManga = divManga.querySelector('input');
+                    if (showManga) {
+                        divManga.style.display = 'block';
+                        inputManga?.setAttribute('required', 'required');
+                    } else {
+                        divManga.style.display = 'none';
+                        inputManga.removeAttribute('required');
+                        if (inputManga) inputManga.value = '0';
+                    }
                 }
             }
 
             if (checkManga) checkManga.addEventListener('change', updateVisibility);
             if (checkAnime) checkAnime.addEventListener('change', updateVisibility);
+            if (checkBoth) checkBoth.addEventListener('change', updateVisibility);
 
             updateVisibility();
         });
