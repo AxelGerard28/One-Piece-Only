@@ -1,3 +1,225 @@
+:root {
+    --color-ink-black: #0F1627;
+    --color-yale-blue: #003A59;
+    --color-baltic-blue: #006196;
+    --color-strong-cyan: #00D6E5;
+    --color-cinnabar: #FF3434;
+
+    --color-bg-main: var(--color-yale-blue);
+    --color-bg-card: var(--color-ink-black);
+    --color-text-main: #F4F7F9;
+    --color-text-muted: #94A3B8;
+    --color-white: #FFFFFF;
+}
+
 body {
-    background-color: skyblue;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   LAYOUT GLOBAL / SIDE BAR
+   ========================================================================== */
+
+.app-sidebar {
+    background-color: var(--color-ink-black);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    box-sizing: border-box;
+    position: fixed;
+    width: 260px;
+}
+
+.app-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+.app-content {
+    grid-column-start: 2;
+    background-color: var(--color-bg-main);
+    padding: 2.5rem;
+    overflow-y: auto;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.app-sidebar .top {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.app-sidebar .brand {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-strong-cyan);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.app-sidebar .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.app-sidebar .link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.app-sidebar .link:hover,
+.app-sidebar .link--active {
+    background-color: var(--color-yale-blue);
+    color: var(--color-white);
+}
+
+.app-sidebar .link--active {
+    border-left: 3px solid var(--color-strong-cyan);
+}
+
+.app-sidebar .bottom {
+    width: 100%;
+}
+
+.btn-logout {
+    display: block;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    background-color: var(--color-cinnabar);
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 52, 52, 0.2);
+}
+
+.btn-logout:hover {
+    background-color: #e02424;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(255, 52, 52, 0.3);
+}
+
+/* ==========================================================================
+   PAGE : ACCUEIL (Home Page)
+   ========================================================================== */
+
+.home-page {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.home-page .header {
+    margin-bottom: 3rem;
+}
+
+.home-page .title {
+    color: var(--color-white);
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+}
+
+.home-page .subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.15rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.channel-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.channel-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s ease;
+    overflow: hidden;
+}
+
+.channel-card .main-link {
+    display: block;
+    padding: 1.75rem;
+    text-decoration: none;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.channel-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 214, 229, 0.4);
+    box-shadow: 0 12px 24px rgba(0, 214, 229, 0.1);
+}
+.channel-card .header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.channel-card .channel-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-white);
+    transition: color 0.2s ease;
+}
+
+.channel-card:hover .channel-name {
+    color: var(--color-strong-cyan);
+}
+
+.channel-card .description {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+}
+
+.channel-list-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    background-color: var(--color-bg-card);
+    border-radius: 14px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    color: var(--color-text-muted);
+}
+
+.channel-list-empty p {
+    margin: 0;
+    font-style: italic;
+    font-size: 1.1rem;
 }

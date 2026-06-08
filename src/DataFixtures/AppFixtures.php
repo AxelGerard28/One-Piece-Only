@@ -32,8 +32,8 @@ class AppFixtures extends Fixture
         $channel2 = new Channel();
         $channel2->setName('zone-scans');
         $channel2->setDescription('Ici on parle des derniers chapitres.');
-        $channel2->setAllowedMediaType('both');
-        $channel2->setMaxProgressionAllowed(0);
+        $channel2->setAllowedMediaType('Manga');
+        $channel2->setMaxProgressionAllowed(1184);
         $channel2->setCreator($user);
         $manager->persist($channel2);
 

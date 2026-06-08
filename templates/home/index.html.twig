@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Bienvenue sur One Piece Only !</h1>
-    <p>Sélectionne un canal de discussion pour commencer à échanger (sans spoil) :</p>
+    <div class="home-page">
+        <header class="header">
+            <h1 class="title">Bienvenue sur One Piece Only !</h1>
+            <p class="subtitle">Sélectionne un canal de discussion pour commencer à échanger (sans spoil) :</p>
+        </header>
 
-    <ul>
-        {% for ch in channels %}
-            <li style="margin-bottom: 15px;">
-                <a href="{{ path('app_channel_room', {'id': ch.id}) }}" style="font-size: 18px; font-weight: bold;">
-                    # {{ ch.name }}
-                </a>
-                <br>
-                <small>{{ ch.description }}</small>
-            </li>
-        {% else %}
-            <li>Aucun canal disponible pour le moment.</li>
-        {% endfor %}
-    </ul>
+        <ul class="channel-grid">
+            {% for ch in channels %}
+                <li class="channel-card">
+                    <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="main-link">
+                        <div class="header">
+                            <span class="channel-name">{{ ch.name }}</span>
+                        </div>
+                        <p class="description">{{ ch.description }}</p>
+                    </a>
+                </li>
+            {% else %}
+                <li class="channel-list-empty">
+                    <p>Aucun canal disponible pour le moment.</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
