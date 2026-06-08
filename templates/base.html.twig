@@ -19,11 +19,13 @@
                     Accueil
                 </a>
 
-                {% if not app.user %}
-                    <a href="{{ path('app_login') }}" class="link {% if app.request.attributes.get('_route') == 'app_login' %}link--active{% endif %}">
-                        Connexion
-                    </a>
-                {% endif %}
+                {% block sidebar_navigation %}
+                    {% if not app.user %}
+                        <a href="{{ path('app_login') }}" class="link {% if app.request.attributes.get('_route') == 'app_login' %}link--active{% endif %}">
+                            Connexion
+                        </a>
+                    {% endif %}
+                {% endblock %}
             </nav>
         </div>
 

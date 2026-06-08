@@ -1,53 +1,48 @@
 {% extends 'base.html.twig' %}
 
+{% block sidebar_navigation %}
+    <div class="sidebar-channels">
+        <h3 class="title">Canaux</h3>
+        <ul class="list">
+            {% for ch in channels %}
+                <li>
+                    <a href="{{ path('app_channel_room', {'id': ch.id}) }}"
+                       class="link {% if currentChannel.id == ch.id %}link--active{% endif %}">
+                        # {{ ch.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ path('app_channel_new') }}" class="btn-create-channel">
+            + Créer un canal
+        </a>
+    </div>
+{% endblock %}
+
 {% block body %}
-    <div style="display: flex; font-family: sans-serif;">
+    <div class="chat-room">
+        <header class="header">
+            <h2 class="title"># {{ currentChannel.name }}</h2>
+            <p class="description">{{ currentChannel.description }}</p>
+        </header>
 
-        <div style="width: 200px; border-right: 1px solid #ccc; padding-right: 15px;">
-            <h3>Canaux</h3>
-            <ul style="list-style: none; padding: 0;">
-                {% for ch in channels %}
-                    <li style="margin-bottom: 10px;">
-                        <a href="{{ path('app_channel_room', {'id': ch.id}) }}" style="text-decoration: none; color: black;">
-                            {% if currentChannel.id == ch.id %}
-                                <strong> --> # {{ ch.name }}</strong>
-                            {% else %}
-                                # {{ ch.name }}
-                            {% endif %}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <hr>
-            <a href="{{ path('app_home') }}">Retour à l'accueil</a>
-        </div>
-
-        <div style="flex: 1; padding-left: 20px;">
-            <h2># {{ currentChannel.name }}</h2>
-            <p><i>{{ currentChannel.description }}</i></p>
-
-            <div id="discussion-box" style="height: 350px; overflow-y: scroll; border: 1px solid black; padding: 10px; margin-bottom: 15px;">
-                {% for msg in currentChannel.messages %}
-                    <div class="messages">
-                        <strong>{{ msg.userId.username }}</strong>
-                        <small>({{ msg.createdAt|date('H:i') }})</small>
-                        <p style="white-space: pre-wrap; word-break: break-word; margin-top: 5px; margin-bottom: 5px;">{{ msg.content }}</p>
+        <div id="discussion-box" class="discussion-box">
+            {% for msg in currentChannel.messages %}
+                <div class="chat-message">
+                    <div class="meta">
+                        <strong class="author">{{ msg.userId.username }}</strong>
+                        <span class="time">{{ msg.createdAt|date('H:i') }}</span>
                     </div>
-                    <hr style="border: 0; border-top: 1px dashed #eee;">
-                {% endfor %}
-            </div>
-
-            <form id="chat-form">
-                <input type="text" id="chat-input" placeholder="Écrire dans #{{ currentChannel.name }}..." autocomplete="off" required style="width: 70%; padding: 8px;">
-                <button type="submit" style="padding: 8px 15px;">Envoyer</button>
-            </form>
-            <a href="{{ path('app_channel_new') }}" style="display: block; text-align: center; margin-top: 15px; padding: 10px; background-color: #007bff; color: white; text-decoration: none; font-weight: bold; border-radius: 4px;">
-                + Créer un canal
-            </a>
+                    <p class="content">{{ msg.content }}</p>
+                </div>
+            {% endfor %}
         </div>
 
-
-
+        <form id="chat-form" class="chat-form">
+            <input type="text" id="chat-input" placeholder="Écrire dans #{{ currentChannel.name }}..." autocomplete="off" required class="input">
+            <button type="submit" class="btn">Envoyer</button>
+        </form>
     </div>
 
     <script>
@@ -66,12 +61,13 @@
             window.currentEventSource.onmessage = function(event) {
                 const data = JSON.parse(event.data);
                 const htmlMessage = `
-                <div>
-                    <strong>${data.username}</strong>
-                    <small>(${data.createdAt})</small>
-                    <p>${data.content}</p>
+                <div class="chat-message">
+                    <div class="meta">
+                        <strong class="author">${data.username}</strong>
+                        <span class="time">${data.createdAt}</span>
+                    </div>
+                    <p class="content">${data.content}</p>
                 </div>
-                <hr style="border: 0; border-top: 1px dashed #eee;">
             `;
                 const box = document.getElementById('discussion-box');
                 if (box) {
@@ -100,7 +96,9 @@
                         });
                 };
             }
+
+            const box = document.getElementById('discussion-box');
+            if (box) box.scrollTop = box.scrollHeight;
         })();
     </script>
-
 {% endblock %}
