@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil - One Piece Only{% endblock %}
+
+{% block body %}
+    <div class="profile-page">
+
+        <header class="profile-header">
+            <div class="user-meta">
+                <h1 class="username">{{ user.username }}</h1>
+            </div>
+        </header>
+
+        <div class="profile-card">
+            <h2 class="card-title">Informations du compte</h2>
+
+            <div class="info-group">
+                <span class="label">Adresse Email : {{ user.email }}</span>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
