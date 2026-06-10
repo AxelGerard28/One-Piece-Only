@@ -2,26 +2,88 @@
 
 {% block body %}
     <div class="home-page">
-        <header class="header">
-            <h1 class="title">Bienvenue sur One Piece Only !</h1>
-            <p class="subtitle">Sélectionne un canal de discussion pour commencer à échanger (sans spoil) :</p>
-        </header>
 
-        <ul class="channel-grid">
-            {% for ch in channels %}
-                <li class="channel-card">
-                    <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="main-link">
-                        <div class="header">
-                            <span class="channel-name">{{ ch.name }}</span>
-                        </div>
-                        <p class="description">{{ ch.description }}</p>
-                    </a>
-                </li>
-            {% else %}
-                <li class="channel-list-empty">
-                    <p>Aucun canal disponible pour le moment.</p>
-                </li>
-            {% endfor %}
-        </ul>
+        {% if has_submitted %}
+            <header class="header">
+                <h1 class="title">Canaux sécurisés trouvés !</h1>
+                <p class="subtitle">
+                    Filtre actif : <strong>{{ app.request.query.get('format')|upper }} - Numéro {{ app.request.query.get('progress') }}</strong>
+                </p>
+                <a href="{{ path('app_home') }}" class="btn-reset">Réinitialiser le filtre</a>
+            </header>
+
+            <ul class="channel-grid">
+                {% for ch in channels %}
+                    <li class="channel-card">
+                        <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="card-link">
+                            <div class="card-header">
+                                <span class="hashtag">#</span>
+                                <span class="channel-name">{{ ch.name }}</span>
+                            </div>
+                            <p class="description">{{ ch.description }}</p>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="list-empty">
+                        <span class="icon"></span>
+                        <p>Aucun canal ne correspond exactement à ce niveau de progression dans la base de données.</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% elseif app.user %}
+            <header class="header">
+                <h1 class="title">Ravi de te revoir, {{ app.user.username }} ! 🏴‍☠️</h1>
+                <p class="subtitle">Voici les canaux de discussion auxquels tu as participé :</p>
+            </header>
+
+            <ul class="channel-grid">
+                {% for ch in channels %}
+                    <li class="channel-card">
+                        <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="card-link">
+                            <div class="card-header">
+                                <span class="hashtag">#</span>
+                                <span class="channel-name">{{ ch.name }}</span>
+                            </div>
+                            <p class="description">{{ ch.description }}</p>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="list-empty">
+                        <span class="icon"></span>
+                        <p>Tu n'as participé à aucun canal. Explore la sidebar pour trouver ton bonheur !</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+            <div class="welcome-box">
+                <span class="logo-icon"></span>
+                <h1 class="title">Bienvenue sur One Piece Only !</h1>
+                <p class="subtitle">Ici, on discute sans se faire spoil. Dis-nous où tu en es dans l'aventure pour débloquer tes accès :</p>
+
+                <form action="" method="GET" class="filter-form">
+                    <div class="form-group">
+                        <label for="format">Tu suis l'histoire en quel format ?</label>
+                        <select name="format" id="format" class="form-select">
+                            <option value="anime">Anime (Épisodes)</option>
+                            <option value="manga">Manga (Tomes / Scans)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="progress">Tu en es à quel numéro (Épisode ou Chapitre) ?</label>
+                        <input type="number" name="progress" id="progress" placeholder="Ex: 1050" required class="form-input">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Voir les canaux sécurisés</button>
+                </form>
+
+                <p class="login-notice">
+                    Pour sauvegarder ta progression et retrouver tes salons, <a href="{{ path('app_login') }}">connecte-toi</a> !
+                </p>
+            </div>
+        {% endif %}
+
     </div>
 {% endblock %}

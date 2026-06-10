@@ -16,28 +16,25 @@ class ChannelRepository extends ServiceEntityRepository
         parent::__construct($registry, Channel::class);
     }
 
-//    /**
-//     * @return Channel[] Returns an array of Channel objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findSafeChannels(string $format, int $progress): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.allowed_media_type = :format')
+            ->andWhere('c.max_progression_allowed <= :progress')
+            ->setParameter('format', $format)
+            ->setParameter('progress', $progress)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Channel
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findChannelsWithMessagesByUser(\App\Entity\User $user): array
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.messages', 'm')
+            ->where('m.user_id = :user')
+            ->setParameter('user', $user)
+            ->distinct()
+            ->getQuery()
+            ->getResult();
+    }
 }

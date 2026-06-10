@@ -22,7 +22,7 @@ body {
 }
 
 /* ==========================================================================
-   LAYOUT GLOBAL / SIDE BAR
+   Sidebar / Layout
    ========================================================================== */
 
 .app-sidebar {
@@ -122,12 +122,12 @@ body {
    ========================================================================== */
 
 .home-page {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .home-page .header {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 .home-page .title {
@@ -135,93 +135,162 @@ body {
     font-size: 2.5rem;
     font-weight: 800;
     margin-top: 0;
-    margin-bottom: 0.75rem;
-    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
 }
 
 .home-page .subtitle {
     color: var(--color-text-muted);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     margin: 0;
-    line-height: 1.5;
 }
 
-.channel-grid {
+.home-page .channel-grid {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
 }
 
-.channel-card {
+.home-page .channel-card {
     background-color: var(--color-bg-card);
     border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.25s ease;
-    overflow: hidden;
+    border-radius: 12px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.channel-card .main-link {
+.home-page .channel-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-strong-cyan);
+}
+
+.home-page .card-link {
     display: block;
-    padding: 1.75rem;
+    padding: 1.5rem;
     text-decoration: none;
-    height: 100%;
-    box-sizing: border-box;
 }
 
-.channel-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 214, 229, 0.4);
-    box-shadow: 0 12px 24px rgba(0, 214, 229, 0.1);
-}
-.channel-card .header {
+.home-page .card-header {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
-.channel-card .channel-name {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--color-white);
-    transition: color 0.2s ease;
+.home-page .hashtag {
+    color: var(--color-baltic-blue);
+    font-weight: 800;
+    font-size: 1.2rem;
 }
 
-.channel-card:hover .channel-name {
+.home-page .channel-card:hover .hashtag {
     color: var(--color-strong-cyan);
 }
 
-.channel-card .description {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: var(--color-text-muted);
+.home-page .channel-name {
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
-.channel-list-empty {
-    grid-column: 1 / -1;
+.home-page .description {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.home-page .welcome-box {
+    background-color: var(--color-bg-card);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    max-width: 550px;
+    margin: 2rem auto;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.home-page .logo-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.home-page .filter-form {
+    margin: 2.5rem 0;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    padding: 4rem 2rem;
-    background-color: var(--color-bg-card);
-    border-radius: 14px;
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    color: var(--color-text-muted);
+    gap: 1.25rem;
 }
 
-.channel-list-empty p {
+.home-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.home-page .form-group label {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.home-page .form-select,
+.home-page .form-input {
+    background-color: var(--color-yale-blue);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.85rem;
+    border-radius: 8px;
+    color: var(--color-white);
+    font-size: 1rem;
+    outline: none;
+}
+
+.home-page .form-input:focus,
+.home-page .form-select:focus {
+    border-color: var(--color-strong-cyan);
+}
+
+.home-page .btn-submit {
+    background-color: var(--color-strong-cyan);
+    color: var(--color-ink-black);
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 0.5rem;
+}
+
+.home-page .btn-submit:hover {
+    background-color: #00b4c2;
+}
+
+.home-page .login-notice {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
     margin: 0;
-    font-style: italic;
-    font-size: 1.1rem;
+}
+
+.home-page .login-notice a {
+    color: var(--color-strong-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.home-page .login-notice a:hover {
+    text-decoration: underline;
+}
+
+.home-page .list-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+    color: var(--color-text-muted);
 }
 
 /* ==========================================================================
