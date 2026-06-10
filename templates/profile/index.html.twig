@@ -5,19 +5,148 @@
 {% block body %}
     <div class="profile-page">
 
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
         <header class="profile-header">
+            <div class="avatar-circle"></div>
             <div class="user-meta">
                 <h1 class="username">{{ user.username }}</h1>
+                <span class="badge">{{ user.email }}</span>
             </div>
         </header>
 
-        <div class="profile-card">
-            <h2 class="card-title">Informations du compte</h2>
+        <div class="profile-content-grid">
 
-            <div class="info-group">
-                <span class="label">Adresse Email : {{ user.email }}</span>
-            </div>
+            <section class="profile-card">
+                <h2 class="card-title">Ma progression Anti-Spoil</h2>
+
+                <div id="profile-display-zone" class="profile-display">
+                    <div class="info-group">
+                        <span class="label">Format suivi</span>
+                        <p class="value font-cyan">
+                            {% if user.mediaType == 'anime' %}
+                                Uniquement l'Anime
+                            {% elseif user.mediaType == 'manga' %}
+                                Uniquement le Manga
+                            {% else %}
+                                Anime & Manga
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    {% if user.mediaType == 'anime' or user.mediaType == 'both' or user.mediaType is empty %}
+                    <div class="info-group">
+                        <span class="label">Dernier épisode vu</span>
+                        <p class="value">{{ user.progressionAnime|default('Aucun') }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if user.mediaType|lower == 'manga' or user.mediaType|lower == 'both' or user.mediaType is empty %}
+                    <div class="info-group">
+                        <span class="label">Dernier chapitre lu</span>
+                        <p class="value">{{ user.progressionManga|default('Aucun') }}</p>
+                    </div>
+                    {% endif %}
+
+                    <button type="button" id="btn-open-edit" class="btn-edit-trigger">Modifier ma progression</button>
+                </div>
+
+                <div id="form-toggle-box" class="form-toggle-box d-none">
+                    {{ form_start(profileForm) }}
+                    <div class="form-group">
+                        {{ form_label(profileForm.mediaType) }}
+                        {{ form_widget(profileForm.mediaType, {'id': 'form-media-type-select'}) }}
+                    </div>
+
+                    <div class="form-group" id="form-group-anime">
+                        {{ form_label(profileForm.progressionAnime) }}
+                        {{ form_widget(profileForm.progressionAnime) }}
+                    </div>
+
+                    <div class="form-group" id="form-group-manga">
+                        {{ form_label(profileForm.progressionManga) }}
+                        {{ form_widget(profileForm.progressionManga) }}
+                    </div>
+
+                    <div class="form-actions">
+                        {{ form_widget(profileForm.save) }}
+                        <button type="button" id="btn-close-edit" class="btn-cancel">Annuler</button>
+                    </div>
+                    {{ form_end(profileForm) }}
+                </div>
+            </section>
+
+            <section class="profile-card">
+                <h2 class="card-title">Mes Canaux créés</h2>
+                <ul class="channel-vertical-list">
+                    {% for ch in createdChannels %}
+                        <li class="channel-item-link">
+                            <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="item-inner">
+                                <div class="item-info">
+                                    <span class="hashtag">#</span>
+                                    <strong class="name">{{ ch.name }}</strong>
+                                    <span class="format-badge {{ ch.allowedMediaType }}">
+                                        {{ ch.allowedMediaType|upper }} {{ ch.maxProgressionAllowed }}
+                                    </span>
+                                </div>
+                                <span class="arrow">➔</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="list-empty">
+                            <p>Tu n'as créé aucun canal pour le moment.</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
         </div>
-
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const displayZone = document.getElementById('profile-display-zone');
+            const formBox = document.getElementById('form-toggle-box');
+            const openBtn = document.getElementById('btn-open-edit');
+            const closeBtn = document.getElementById('btn-close-edit');
+
+            const mediaSelect = document.getElementById('form-media-type-select');
+            const groupAnime = document.getElementById('form-group-anime');
+            const groupManga = document.getElementById('form-group-manga');
+
+            function toggleFormFields() {
+                const selectedValue = mediaSelect.value.toLowerCase();
+
+                if (selectedValue === 'anime') {
+                    groupAnime.classList.remove('d-none');
+                    groupManga.classList.add('d-none');
+                } else if (selectedValue === 'manga') {
+                    groupAnime.classList.add('d-none');
+                    groupManga.classList.remove('d-none');
+                } else {
+                    groupAnime.classList.remove('d-none');
+                    groupManga.classList.remove('d-none');
+                }
+            }
+
+            if (openBtn && closeBtn) {
+                openBtn.addEventListener('click', function() {
+                    displayZone.classList.add('d-none');
+                    formBox.classList.remove('d-none');
+                    toggleFormFields();
+                });
+
+                closeBtn.addEventListener('click', function() {
+                    formBox.classList.add('d-none');
+                    displayZone.classList.remove('d-none');
+                });
+            }
+
+            if (mediaSelect) {
+                mediaSelect.addEventListener('change', toggleFormFields);
+            }
+        });
+    </script>
 {% endblock %}
