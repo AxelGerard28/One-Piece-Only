@@ -1,25 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block sidebar_navigation %}
-    <div class="sidebar-channels">
-        <h3 class="title">Canaux</h3>
-        <ul class="list">
-            {% for ch in channels %}
-                <li>
-                    <a href="{{ path('app_channel_room', {'id': ch.id}) }}"
-                       class="link {% if currentChannel.id == ch.id %}link--active{% endif %}">
-                        # {{ ch.name }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-
-        <a href="{{ path('app_channel_new') }}" class="btn-create-channel">
-            + Créer un canal
-        </a>
-    </div>
-{% endblock %}
-
 {% block body %}
     <div class="chat-room">
         <header class="header">

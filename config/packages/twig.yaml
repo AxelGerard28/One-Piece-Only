@@ -2,7 +2,7 @@ twig:
     file_name_pattern: '*.twig'
 
     globals:
-        channels: '@App\Repository\ChannelRepository'
+        all_channels_list: '@App\Repository\ChannelRepository'
 
 when@test:
     twig:

@@ -35,7 +35,7 @@
                             Tous les canaux <span class="chevron">▼</span>
                         </button>
                         <div class="dropdown-menu d-none">
-                            {% for ch in channels|default([]) %}
+                            {% for ch in all_channels_list.findAll()|default([]) %}
                                 <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="dropdown-link"># {{ ch.name }}</a>
                             {% else %}
                                 <span class="dropdown-empty">Aucun canal disponible</span>
