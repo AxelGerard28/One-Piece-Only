@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
 
+    globals:
+        channels: '@App\Repository\ChannelRepository'
+
 when@test:
     twig:
         strict_variables: true
