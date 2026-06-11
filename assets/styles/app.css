@@ -149,7 +149,7 @@ body {
 .dropdown-trigger .chevron {
     font-size: 0.75rem;
     color: var(--color-text-muted);
-    transition: transform 0.2s;
+    transition: transform 0.2s ease;
 }
 
 .dropdown-menu {
@@ -180,8 +180,8 @@ body {
 .dropdown-empty-box {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem 0.5rem 0;
 }
 
 .dropdown-empty {
@@ -196,7 +196,7 @@ body {
     background-color: rgba(0, 214, 229, 0.05);
     color: var(--color-strong-cyan);
     border: 1px dashed var(--color-baltic-blue);
-    padding: 0.5rem;
+    padding: 0.55rem;
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -208,6 +208,8 @@ body {
     background-color: var(--color-strong-cyan);
     color: var(--color-ink-black);
     border-style: solid;
+    border-color: var(--color-strong-cyan);
+    box-shadow: 0 0 10px rgba(0, 214, 229, 0.2);
 }
 
 .link--logout:hover {

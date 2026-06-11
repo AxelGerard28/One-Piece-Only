@@ -50,10 +50,10 @@
                         <div class="dropdown-menu d-none">
                             {% for ch in app.user.createdChannels %}
                                 <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="dropdown-link"># {{ ch.name }}</a>
-                                <a href="{{ path('app_channel_new') }}" class="dropdown-link">Créer un canal</a>
+                                <a href="{{ path('app_channel_new') }}" class="btn-sidebar-action">Créer un canal</a>
                             {% else %}
                                 <span class="dropdown-empty">Aucun canal créé</span>
-                                <a href="{{ path('app_channel_new') }}" class="dropdown-link">Créer un canal</a>
+                                <a href="{{ path('app_channel_new') }}" class="btn-sidebar-action">Créer un canal</a>
                             {% endfor %}
                         </div>
                     </div>
