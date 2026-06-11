@@ -14,24 +14,61 @@
             <div class="brand">
                 One Piece Only
             </div>
+
             <nav class="nav">
                 <a href="{{ path('app_home') }}" class="link {% if app.request.attributes.get('_route') == 'app_home' %}link--active{% endif %}">
                     Accueil
                 </a>
 
-                {% block sidebar_navigation %}
-                    {% if not app.user %}
-                        <a href="{{ path('app_login') }}" class="link {% if app.request.attributes.get('_route') == 'app_login' %}link--active{% endif %}">
-                            Connexion
-                        </a>
-                    {% endif %}
-                {% endblock %}
+                {% if not app.user %}
+                    <a href="{{ path('app_login') }}" class="link {% if app.request.attributes.get('_route') == 'app_login' %}link--active{% endif %}">
+                        Connexion
+                    </a>
+                    <a href="{{ path('app_register') }}" class="link {% if app.request.attributes.get('_route') == 'app_register' %}link--active{% endif %}">
+                        S'inscrire
+                    </a>
+
+                {% else %}
+
+                    <div class="dropdown-container">
+                        <button type="button" class="dropdown-trigger">
+                            Tous les canaux <span class="chevron">▼</span>
+                        </button>
+                        <div class="dropdown-menu d-none">
+                            {% for ch in all_channels|default([]) %}
+                                <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="dropdown-link"># {{ ch.name }}</a>
+                            {% else %}
+                                <span class="dropdown-empty">Aucun canal disponible</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <button type="button" class="dropdown-trigger">
+                            Mes canaux <span class="chevron">▼</span>
+                        </button>
+                        <div class="dropdown-menu d-none">
+                            {% for ch in app.user.createdChannels %}
+                                <a href="{{ path('app_channel_room', {'id': ch.id}) }}" class="dropdown-link"># {{ ch.name }}</a>
+                            {% else %}
+                                <span class="dropdown-empty">Aucun canal créé</span>
+                                <a href="{{ path('app_channel_create_submit') }}" class="dropdown-link">Créer un canal</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <a href="{{ path('app_profile') }}" class="link {% if app.request.attributes.get('_route') == 'app_profile' %}link--active{% endif %}">
+                        Mon Profil
+                    </a>
+                {% endif %}
+
+                {% block sidebar_navigation %}{% endblock %}
             </nav>
         </div>
 
         {% if app.user %}
             <div class="bottom">
-                <a href="{{ path('app_logout') }}" class="btn-logout">
+                <a href="{{ path('app_logout') }}" class="btn-logout link--logout">
                     Déconnexion
                 </a>
             </div>
@@ -43,6 +80,29 @@
     </main>
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const triggers = document.querySelectorAll('.dropdown-trigger');
+
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const chevron = this.querySelector('.chevron');
+
+                menu.classList.toggle('d-none');
+
+                if (menu.classList.contains('d-none')) {
+                    chevron.textContent = '▼';
+                    this.classList.remove('active');
+                } else {
+                    chevron.textContent = '▲';
+                    this.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

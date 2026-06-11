@@ -25,6 +25,12 @@ body {
    Sidebar / Layout
    ========================================================================== */
 
+.app-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
 .app-sidebar {
     background-color: var(--color-ink-black);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
@@ -36,12 +42,6 @@ body {
     box-sizing: border-box;
     position: fixed;
     width: 260px;
-}
-
-.app-layout {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: 100vh;
 }
 
 .app-content {
@@ -115,6 +115,107 @@ body {
     background-color: #e02424;
     transform: translateY(-1px);
     box-shadow: 0 6px 15px rgba(255, 52, 52, 0.3);
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.dropdown-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-main);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-trigger:hover,
+.dropdown-trigger.active {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-strong-cyan);
+}
+
+.dropdown-trigger .chevron {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    transition: transform 0.2s;
+}
+
+.dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-left: 1.25rem;
+    margin: 0.25rem 0 0.75rem 0;
+}
+
+.dropdown-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease;
+}
+
+.dropdown-link:hover {
+    color: var(--color-white);
+    background-color: rgba(0, 214, 229, 0.1);
+}
+
+.dropdown-empty-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-empty {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.btn-sidebar-action {
+    display: block;
+    text-align: center;
+    background-color: rgba(0, 214, 229, 0.05);
+    color: var(--color-strong-cyan);
+    border: 1px dashed var(--color-baltic-blue);
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-sidebar-action:hover {
+    background-color: var(--color-strong-cyan);
+    color: var(--color-ink-black);
+    border-style: solid;
+}
+
+.link--logout:hover {
+    background-color: rgba(255, 52, 52, 0.1) !important;
+}
+
+.nav .d-none, .profile-page .d-none, .create-channel-page .d-none {
+    display: none !important;
 }
 
 /* ==========================================================================
@@ -294,53 +395,8 @@ body {
 }
 
 /* ==========================================================================
-   PAGE : Channels
+   PAGE : Chat Rooms
    ========================================================================== */
-.sidebar-channels {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 1.5rem;
-}
-
-.sidebar-channels .title {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--color-text-muted);
-    margin: 0 0 0.5rem 0;
-}
-
-.sidebar-channels .list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-}
-
-.btn-create-channel {
-    display: block;
-    text-align: center;
-    padding: 0.6rem;
-    background-color: transparent;
-    border: 1px dashed var(--color-baltic-blue);
-    color: var(--color-strong-cyan);
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    margin-top: 1rem;
-}
-
-.btn-create-channel:hover {
-    background-color: rgba(0, 97, 150, 0.15);
-    border-color: var(--color-strong-cyan);
-}
 
 .chat-room {
     display: flex;
@@ -572,10 +628,6 @@ body {
     color: var(--color-strong-cyan);
 }
 
-.profile-page .d-none {
-    display: none !important;
-}
-
 .profile-page .form-group {
     display: flex;
     flex-direction: column;
@@ -607,7 +659,6 @@ body {
     border-color: var(--color-strong-cyan);
 }
 
-/* Boutons d'action */
 .profile-page .btn-edit-trigger {
     background-color: transparent;
     border: 1px solid var(--color-baltic-blue);
@@ -667,7 +718,6 @@ body {
     color: var(--color-white);
 }
 
-/* --- Section 3 : Liste des canaux créés --- */
 .profile-page .channel-vertical-list {
     list-style: none;
     padding: 0;
@@ -711,7 +761,6 @@ body {
     font-weight: 600;
 }
 
-/* Les Badges Manga/Anime */
 .profile-page .format-badge {
     font-size: 0.75rem;
     padding: 0.2rem 0.5rem;
@@ -740,4 +789,142 @@ body {
     color: var(--color-text-muted);
     font-style: italic;
     padding: 2rem 0;
+}
+
+/* ==========================================================================
+   PAGE : Create Channels
+   ========================================================================== */
+
+.create-channel-page {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.create-channel-page .form-container-box {
+    background-color: var(--color-bg-card);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.create-channel-page .form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.create-channel-page .form-header .icon {
+    font-size: 2.5rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.create-channel-page .form-header .title {
+    color: var(--color-white);
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 800;
+}
+
+.create-channel-page .form-header .subtitle {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.create-channel-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.create-channel-page .form-group label {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.create-channel-page .form-input,
+.create-channel-page .form-select {
+    background-color: var(--color-yale-blue);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.85rem;
+    border-radius: 8px;
+    color: var(--color-white);
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.create-channel-page .form-input:focus,
+.create-channel-page .form-select:focus {
+    border-color: var(--color-strong-cyan);
+}
+
+.create-channel-page .form-help {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: 0.25rem;
+}
+
+.create-channel-page .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    align-items: center;
+}
+
+.create-channel-page .btn-submit {
+    flex: 2;
+    background-color: var(--color-strong-cyan);
+    color: var(--color-ink-black);
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.create-channel-page .btn-submit:hover {
+    background-color: #00b4c2;
+}
+
+.create-channel-page .btn-cancel {
+    flex: 1;
+    display: block;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-muted);
+    padding: 0.85rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.create-channel-page .btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-white);
+}
+
+.create-channel-page .alert-error {
+    background-color: rgba(255, 52, 52, 0.1);
+    color: var(--color-cinnabar);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border: 1px solid var(--color-cinnabar);
+    text-align: center;
 }
