@@ -3,37 +3,43 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <div class="acc-button">
-        <a href="{{ path('app_home') }}">Accueil</a>
-    </div>
-    <div class="acc-button">
-        Tu as deja un compte ?<a href="{{ path('app_login') }}">Connexion</a>
-    </div>
+    <div class="register-container">
 
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-    <h1>Register</h1>
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.username) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.plainPassword) }}
-    <div class="media_type">
-        {{ form_row(registrationForm['media_type']) }}
+        <div class="register-card">
+            <div class="register-top-actions">
+                <a href="{{ path('app_home') }}">Accueil</a>
+                <div>
+                    Tu as déjà un compte ? <a href="{{ path('app_login') }}">Connexion</a>
+                </div>
+            </div>
 
-        <div id="wrapper-anime" class="progression_choice" style="display: none;">
-            {{ form_row(registrationForm.progressionAnime) }}
+            <h1>Inscription</h1>
+
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.username) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword) }}
+
+            <div class="media_type">
+                {{ form_row(registrationForm['media_type']) }}
+
+                <div id="wrapper-anime" class="progression_choice" style="display: none;">
+                    {{ form_row(registrationForm.progressionAnime) }}
+                </div>
+
+                <div id="wrapper-manga" class="progression_choice" style="display: none;">
+                    {{ form_row(registrationForm.progressionManga) }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn-register-submit">S'inscrire et rejoindre l'équipage</button>
+            {{ form_end(registrationForm) }}
         </div>
-
-        <div id="wrapper-manga" class="progression_choice" style="display: none;">
-            {{ form_row(registrationForm.progressionManga) }}
-        </div>
-
     </div>
-
-    <button type="submit" class="btn btn-primary w-100 mt-4">S'inscrire</button>
-    {{ form_end(registrationForm) }}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -930,3 +930,370 @@ body {
     border: 1px solid var(--color-cinnabar);
     text-align: center;
 }
+
+/* ==========================================================================
+   PAGE : Register
+   ========================================================================== */
+
+.register-container {
+    max-width: 650px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+
+.register-card {
+    background-color: var(--color-bg-card);
+    border-radius: 14px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.register-card h1 {
+    color: var(--color-white);
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.register-top-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.register-top-actions a {
+    color: var(--color-strong-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-card form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+}
+
+.register-card label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.register-card input[type="text"],
+.register-card input[type="email"],
+.register-card input[type="password"],
+.register-card input[type="number"] {
+    background-color: var(--color-yale-blue);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    color: var(--color-white);
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.register-card input:focus {
+    border-color: var(--color-strong-cyan);
+}
+
+.media_type {
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 0.85rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 1rem 0;
+}
+
+.media_type input[type="radio"] {
+    accent-color: var(--color-strong-cyan);
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-register-submit {
+    background-color: var(--color-strong-cyan);
+    color: var(--color-ink-black);
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-register-submit:hover {
+    background-color: #00b4c2;
+}
+
+.register-card .alert-danger {
+    background-color: rgba(255, 52, 52, 0.1);
+    color: var(--color-cinnabar);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid var(--color-cinnabar);
+    text-align: center;
+}
+
+/* ==========================================================================
+   PAGE : Login
+   ========================================================================== */
+
+.login-container {
+    max-width: 650px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.login-card {
+    background-color: var(--color-bg-card);
+    border-radius: 14px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.login-card h1 {
+    color: var(--color-white);
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.login-top-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.login-top-actions a {
+    color: var(--color-strong-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-card .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+}
+
+.login-card label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.login-card .form-control {
+    background-color: var(--color-yale-blue);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    color: var(--color-white);
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+.login-card .form-control:focus {
+    border-color: var(--color-strong-cyan);
+}
+
+.checkbox-group {
+    margin: 1rem 0;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    text-transform: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: var(--color-strong-cyan);
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-login-submit {
+    background-color: var(--color-strong-cyan);
+    color: var(--color-ink-black);
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-login-submit:hover {
+    background-color: #00b4c2;
+}
+
+.login-container .alert-danger {
+    background-color: rgba(255, 52, 52, 0.1);
+    color: var(--color-cinnabar);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid var(--color-cinnabar);
+    text-align: center;
+}
+
+/* ==========================================================================
+   PAGE : Create Channel
+   ========================================================================== */
+
+.create-channel-container {
+    max-width: 650px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.create-channel-card {
+    background-color: var(--color-bg-card);
+    border-radius: 14px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.create-channel-card h2 {
+    color: var(--color-white);
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.create-channel-top-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.create-channel-top-actions a {
+    color: var(--color-strong-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.create-channel-top-actions .link-cancel {
+    color: var(--color-text-muted);
+}
+
+.create-channel-top-actions .link-cancel:hover {
+    color: var(--color-cinnabar);
+    text-decoration: underline;
+}
+
+.create-channel-card .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1.25rem;
+}
+
+.create-channel-card label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.create-channel-card .form-control {
+    background-color: var(--color-yale-blue);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    color: var(--color-white);
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    transition: border-color 0.2s ease;
+    font-family: inherit;
+}
+
+.create-channel-card textarea.form-control {
+    resize: vertical;
+}
+
+.create-channel-card select.form-control {
+    cursor: pointer;
+}
+
+.create-channel-card .form-control:focus {
+    border-color: var(--color-strong-cyan);
+}
+
+.btn-channel-submit {
+    background-color: var(--color-strong-cyan);
+    color: var(--color-ink-black);
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-channel-submit:hover {
+    background-color: #00b4c2;
+}
+
+.create-channel-container .alert-danger {
+    background-color: rgba(255, 52, 52, 0.1);
+    color: var(--color-cinnabar);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid var(--color-cinnabar);
+    text-align: center;
+}
