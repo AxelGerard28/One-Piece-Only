@@ -16,7 +16,7 @@ One Piece Only est une plateforme de messagerie instantanée conçue pour la com
 - Base de données : PostgreSQL.
 - Environnement : Docker et Docker Compose.
 - Communication temps réel : Symfony Mercure Hub.
-- Frontend : Symfony UX (Stimulus et Turbo) pour une interface réactive.
+- Frontend : Moteur de templates Twig associé à Symfony UX (Stimulus et Turbo).
 
 ## Installation et configuration
 
@@ -33,23 +33,23 @@ Pour installer et lancer le projet dans un environnement de développement, suiv
    composer install
    ```
 
-3. Lancer les services Docker (Base de données et Mercure) :
+3. Lancement des services Docker (Base de données et Mercure) :
    ```bash
    docker compose up -d
    ```
 
-4. Initialiser la base de données :
+4. Initialisation de la base de données :
    ```bash
    php bin/console doctrine:database:create
    php bin/console doctrine:migrations:migrate --no-interaction
    ```
 
-5. Charger les données de test :
+5. Chargement des données de test :
    ```bash
    php bin/console doctrine:fixtures:load --no-interaction
    ```
 
-6. Démarrer le serveur Symfony :
+6. Démarrage du serveur Symfony :
    ```bash
    symfony serve
    ```
@@ -62,7 +62,7 @@ Le projet suit l'architecture standard de Symfony pour faciliter sa compréhensi
 - src/Controller : Gestion des routes et de la logique de présentation.
 - src/Repository : Requêtes de base de données, notamment pour le calcul de la sécurité des salons.
 - src/DataFixtures : Scripts pour alimenter la base de données lors du développement.
-- templates : Dossier contenant les vues Twig.
+- templates : Fichiers HTML structurés avec le moteur de templates Twig.
 
 ## Validation du projet
 
