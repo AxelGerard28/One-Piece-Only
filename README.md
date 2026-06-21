@@ -64,13 +64,44 @@ Le projet suit l'architecture standard de Symfony pour faciliter sa compréhensi
 - src/DataFixtures : Scripts pour alimenter la base de données lors du développement.
 - templates : Fichiers HTML structurés avec le moteur de templates Twig.
 
-## Validation du projet
+## Validation & Tests
 
-Des tests unitaires et fonctionnels sont disponibles pour vérifier la conformité des fonctionnalités, en particulier la logique du système anti-spoil :
+L'application contient des tests fonctionnels pour vérifier que tout fonctionne correctement, notamment le système anti-spoil.
+
+### 1. Préparer la base de données de test
+
+Les tests s'exécutent sur une base de données séparée (configurée dans `.env.test`) pour ne pas écraser vos données de développement. Avant de lancer les tests, exécutez ces commandes :
+
+```bash
+# Créer la base de test
+php bin/console doctrine:database:create --env=test
+
+# Lancer les migrations
+php bin/console doctrine:migrations:migrate --env=test --no-interaction
+
+# Charger les données de test (fixtures)
+php bin/console doctrine:fixtures:load --env=test --no-interaction
+```
+
+### 2. Lancer les tests
+
+Exécutez la commande suivante pour lancer tous les tests :
+
 ```bash
 php bin/phpunit
 ```
 
+*(Si vous utilisez WSL, lancez plutôt : `wsl php bin/phpunit`)*
+
+### 3. Qu'est-ce qui est testé ? (`tests/Test.php`)
+
+- **testHome** : Vérifie que la page d'accueil s'affiche bien (code HTTP 200).
+- **testChannelBlocked** : Vérifie qu'un utilisateur qui n'a pas assez avancé (ex: chapitre 10) est bien bloqué (redirection) s'il tente d'accéder à un salon plus avancé (ex: chapitre 1100).
+- **testChannelAllowed** : Vérifie qu'un utilisateur à jour (ex: chapitre 1200) peut bien accéder à un salon (ex: chapitre 1100).
+- **testChannelAnon** : Vérifie qu'un utilisateur non connecté est automatiquement redirigé s'il essaie d'accéder à un salon.
+- **testChannelNotFound** : S'assure qu'un salon qui n'existe pas (ID inexistant) renvoie bien une erreur 404.
+- **testRegister** : Teste le formulaire d'inscription en créant un utilisateur d'essai de A à Z.
+
 ---
 Documentation technique de l'application One Piece Only.
-Dernière mise à jour : 16 juin 2026.
+Dernière mise à jour : 21 juin 2026.
